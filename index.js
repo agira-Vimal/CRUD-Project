@@ -67,11 +67,29 @@ app.get("/", (req, res, next) => {
   } else {
     message = null;
   }
-  res.status(200).render("index", { errorMessage: message ,oldInput:{
-    name:'',
-    email:'',
-    password:''
-  }});
+  if (req.session.isLoggedIn == true) {
+    return res.status(201).render("add-player", {
+      pageTitle: "Add Player",
+      playername: "",
+      jerseyno: "",
+      role: "",
+      price: "",
+      team: "",
+    });
+  }
+  res.status(200).render("index", {
+    errorMessage: message,
+    oldInput: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
+});
+app.use((error, req, res, next) => {
+  res.status(500).render("500", {
+    pageTitle: "Internal Server Error",
+  });
 });
 
 mongoose

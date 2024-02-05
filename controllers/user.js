@@ -5,8 +5,7 @@ const User = require("../ models/user");
 const bcryptjs = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-const { validationResult }=require('express-validator');
-
+const { validationResult } = require("express-validator");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -20,51 +19,51 @@ exports.postSignUp = (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
-  const errors= validationResult(req);
-  if(!errors.isEmpty()){
-    return res.status(422).render('index',{
-      errorMessage:errors.array()[0].msg,
-      oldInput:{
-        name:name,
-        email:email,
-        password:password
-      }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("index", {
+      errorMessage: errors.array()[0].msg,
+      oldInput: {
+        name: name,
+        email: email,
+        password: password,
+      },
     });
   }
-  
-      return bcryptjs
-        .hash(password, 12)
-        .then((hashedPassword) => {
-          const user = new User({
-            name: name,
-            email: email,
-            password: hashedPassword,
-          });
-          return user.save();
-        })
-        .then((result) => {
-          let otp = "";
-          for (let i = 1; i <= 6; i++) {
-            otp += Math.round(Math.random() * 9).toString();
-          }
-          req.flash("otp", `${otp}`);
-          req.flash("throughSignup", "true");
-          res.redirect("/user/login");
-          const mailOptions = {
-            from: "iamvimal107@gmail.com",
-            to: email,
-            subject: `SignUp Successful!!!`,
-            text: `Hello ${name}!
+
+  return bcryptjs
+    .hash(password, 12)
+    .then((hashedPassword) => {
+      const user = new User({
+        name: name,
+        email: email,
+        password: hashedPassword,
+      });
+      return user.save();
+    })
+    .then((result) => {
+      let otp = "";
+      for (let i = 1; i <= 6; i++) {
+        otp += Math.round(Math.random() * 9).toString();
+      }
+      req.flash("otp", `${otp}`);
+      req.flash("throughSignup", "true");
+      res.redirect("/user/login");
+      const mailOptions = {
+        from: "iamvimal107@gmail.com",
+        to: email,
+        subject: `SignUp Successful!!!`,
+        text: `Hello ${name}!
 Welcome to Our Website!!
 This is Your One Time Password For Login ${otp}`,
-          };
-          return transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              return console.log(error);
-            }
-            console.log(info);
-          });
-        });
+      };
+      return transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          return console.log(error);
+        }
+        console.log(info);
+      });
+    });
 };
 
 exports.getSignUpPage = (req, res, next) => {
@@ -85,10 +84,10 @@ exports.getLoginPage = (req, res, next) => {
     pageTitle: "Login",
     errorMessage: message,
     throughSignup: sign,
-    oldInput:{
-      email:"",
-      password:""
-    }
+    oldInput: {
+      email: "",
+      password: "",
+    },
   });
 };
 exports.postLogin = async (req, res, next) => {
@@ -96,34 +95,34 @@ exports.postLogin = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const otp = req.body.otp;
-    
+
     const errors = validationResult(req);
-    
+
     if (!errors.isEmpty()) {
-      return res.status(422).render('login', {
+      return res.status(422).render("login", {
         errorMessage: errors.array()[0].msg,
-        pageTitle:"Login",
+        pageTitle: "Login",
         throughSignup: false,
         oldInput: {
           email: email,
           password: password,
-          otp: otp
-        }
+          otp: otp,
+        },
       });
     }
 
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      return res.status(422).render('login', {
+      return res.status(422).render("login", {
         errorMessage: "Invalid email or password",
-        pageTitle:"Login",
+        pageTitle: "Login",
         throughSignup: false,
         oldInput: {
           email: email,
           password: password,
-          otp: otp
-        }
+          otp: otp,
+        },
       });
     }
 
@@ -138,15 +137,15 @@ exports.postLogin = async (req, res, next) => {
         await req.session.save();
         return res.redirect("/admin/add-player");
       } else {
-        return res.status(422).render('login', {
+        return res.status(422).render("login", {
           errorMessage: "Invalid email, password, or OTP",
-          pageTitle:"Login",
+          pageTitle: "Login",
           throughSignup: false,
           oldInput: {
             email: email,
             password: password,
-            otp: otp
-          }
+            otp: otp,
+          },
         });
       }
     } else if (doMatch && otp === "noOtp") {
@@ -155,20 +154,21 @@ exports.postLogin = async (req, res, next) => {
       await req.session.save();
       return res.redirect("/admin/add-player");
     } else {
-      return res.status(422).render('login', {
-        pageTitle:"Login",
+      return res.status(422).render("login", {
+        pageTitle: "Login",
         throughSignup: false,
         errorMessage: "Invalid email or password",
         oldInput: {
           email: email,
           password: password,
-          otp: otp
-        }
+          otp: otp,
+        },
       });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send("Internal Server Error");
+    const error = new Error(err);
+    error.httpStatusCode(500);
+    return next(error);
   }
 };
 
@@ -280,7 +280,9 @@ exports.postResetPassword = (req, res, next) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode(500);
+        return next(error);
       });
   });
 };
@@ -306,7 +308,9 @@ exports.getNewPassword = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode(500);
+      return next(error);
     });
 };
 
@@ -341,6 +345,8 @@ exports.postNewPassword = (req, res, next) => {
       res.redirect("/user/login");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode(500);
+      return next(error);
     });
 };

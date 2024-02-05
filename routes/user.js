@@ -22,13 +22,13 @@ router.post(
           }
         });
       }),
-    body(
-      "password",
-      "Please Enter a password with Minimum 5 characters containing letters and numbers only"
-    )
-      .isLength({ min: 5 })
-      .isAlphanumeric()
-      .trim(),
+      body(
+        "password",
+        "Please Enter a password with Minimum 5 characters containing letters, numbers, or special characters"
+      )
+        .isLength({ min: 5 })
+        .matches(/^[a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/)
+        .trim(),
     body("name")
       .matches(/^[A-Za-z\s]+$/)
       .withMessage("Please Enter a Valid Name"),
