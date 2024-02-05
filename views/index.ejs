@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome!!!</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-image: url("../images/backgroundIMG.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      nav {
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        margin-right: 10px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      a {
+        text-decoration: none;
+        color: green;
+      }
+
+      a:hover {
+        color: rgb(248, 232, 5);
+      }
+
+      h1 {
+        color: #fff;
+        text-align: center;
+        margin-top: 100px; /* Adjust this value to position the form */
+      }
+
+      form {
+        text-align: center;
+        margin: 20px auto; /* Center the form horizontally and provide top margin */
+        max-width: 400px; /* Limit the width of the form */
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      input {
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      button {
+        background-color: green;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .login-link a {
+        color: rgba(53, 248, 5, 0.911);
+        font-weight: bold;
+      }
+
+      .login-link a:hover {
+        color: rgb(248, 232, 5);
+      }
+      p {
+        font-size: 1.4em;
+        color: #fff;
+      }
+      .user-message {
+        margin: auto;
+        width: 50%;
+        border: 1px solid #0629f1;
+        background: #06f1f1;
+        padding: 0.5rem;
+        text-align: center;
+      }
+      .user-message-error {
+        border-color: red;
+        background: #e68181;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/user/login">Login</a> 
+    </nav>
+
+    <h1>Welcome to our website!</h1>
+    <% if(errorMessage){ %>
+    <div class="user-message user-message-error"><%= errorMessage %></div>
+    <% } %>
+    <form action="/user/signup" method="post" novalidate>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="<%= oldInput.name %>" required />
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="<%= oldInput.email %>" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" value="<%= oldInput.password %>" required />
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <div class="login-link">
+      <p>Already a user? <a href="/user/login">Login</a></p>
+    </div>
+  </body>
+</html>

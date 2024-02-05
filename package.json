@@ -1,0 +1,27 @@
+{
+  "name": "nodemysqlpractice",
+  "version": "1.0.0",
+  "description": "Node With MySql",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vimal",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^5.0.0",
+    "csurf": "^1.11.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.0.1",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
+    "mysql2": "^3.8.0",
+    "nodemailer": "^6.9.8",
+    "nodemon": "^3.0.3"
+  }
+}

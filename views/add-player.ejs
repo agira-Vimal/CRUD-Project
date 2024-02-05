@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-image: url("../images/backgroundIMG.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh; /* Ensure the body takes at least the full height of the viewport */
+        font-family: "Arial", sans-serif;
+      }
+
+      nav {
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        width: 100%; /* Make the navigation bar full width */
+        background-color: #333;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        margin: 0 10px;
+      }
+
+      a {
+        text-decoration: none;
+        color: green;
+        font-size: 18px; /* Increase the font size */
+      }
+
+      a:hover {
+        color: rgb(248, 232, 5);
+      }
+
+      h1 {
+        font-size: 24px; /* Increase the font size */
+        margin-bottom: 20px; /* Add some bottom margin */
+        color: #fff;
+      }
+
+      form {
+        width: 300px; /* Set a fixed width for the form */
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      label {
+        margin-bottom: 10px;
+        font-size: 16px; /* Increase the font size */
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        font-size: 16px; /* Increase the font size */
+      }
+
+      button {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px; /* Increase the font size */
+      }
+
+      button:hover {
+        background-color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/admin/view-players">View Players</a>
+      <a href="/user/logout">Logout</a>
+    </nav>
+    <h1>Enter Player Details To Add:</h1>
+    <form action="/admin/add-player" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label for="playername">Player Name:</label>
+      <input type="text" id="playername" name="playername" />
+      <label for="jersey">Jersey No:</label>
+      <input type="number" id="jersey" name="jersey" />
+      <label for="role">Role:</label>
+      <input type="text" id="role" name="role" />
+      <label for="price">Price:</label>
+      <input type="text" id="price" name="price" />
+      <label for="team">Team:</label>
+      <input type="text" id="team" name="team" />
+      <button type="submit">Add Player</button>
+    </form>
+  </body>
+</html>

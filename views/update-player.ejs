@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-image: url("../images/backgroundIMG.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: "Arial", sans-serif;
+        color: white;
+      }
+
+      nav {
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+        background-color: #333;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        margin-right: 10px;
+      }
+
+      a {
+        text-decoration: none;
+        color: green;
+      }
+
+      a:hover {
+        color: rgb(248, 232, 5);
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #fff; /* Change the color for better contrast */
+      }
+
+      form {
+        max-width: 400px; /* Set a maximum width for the form */
+        margin: 20px auto; /* Center the form on the page */
+        padding: 20px;
+        background-color: rgb(
+          255,
+          255,
+          255
+        ); /* Semi-transparent white background */
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow for depth */
+        color: #333; /* Change the text color for better contrast */
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        box-sizing: border-box;
+        font-size: 16px;
+        border: 1px solid #ccc; /* Add a border to the input fields */
+        border-radius: 5px;
+      }
+
+      button {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      button:hover {
+        background-color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/admin/add-player">Add Player</a>
+      <a href="/admin/view-players">View Players</a>
+      <!-- <a href="/admin/delete-player">Delete Player</a> -->
+    </nav>
+    <h1>Update Player Details :</h1>
+    <form action="/admin/update-player/<%= player._id %>" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label for="playername">Player Name:</label>
+      <input
+        type="text"
+        id="playername"
+        name="playername"
+        value="<%= player.playername %>"
+      />
+      <label for="jersey">Jersey No:</label>
+      <input
+        type="number"
+        id="jersey"
+        name="jersey"
+        value="<%= player.jerseyno %>"
+      />
+      <label for="role">Role:</label>
+      <input type="text" id="role" name="role" value="<%= player.role %>" />
+      <label for="price">Price:</label>
+      <input type="text" id="price" name="price" value="<%= player.price %>" />
+      <label for="team">Team:</label>
+      <input type="text" id="team" name="team" value="<%= player.team %>" />
+      <button type="submit">Update Player</button>
+    </form>
+  </body>
+</html>
